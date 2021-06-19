@@ -14,6 +14,9 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 
+@property (weak, nonatomic) IBOutlet UILabel *lable;
+
+
 @end
 
 @implementation ViewController
@@ -70,7 +73,6 @@
         [weakSelf.view endEditing:YES];
     }];
     
-    
     //数组 - 遍历
     NSArray *array = @[@"凡几多",@"感",@"最潇洒"];
     [array.rac_sequence.signal subscribeNext:^(id  _Nullable x) {
@@ -78,13 +80,21 @@
     }];
     
     //字典 - 遍历
-    NSDictionary *dict = @{@"name":@"凡几多",@"age":@"20",@"sex":@"男"};
+    NSDictionary *dict = @{@"name":@"凡几多",
+                           @"age":@"20",
+                           @"sex":@"男"};
     [dict.rac_sequence.signal subscribeNext:^(id  _Nullable x) {
         
         NSLog(@"%@",x);
         RACTwoTuple *tuple = (RACTwoTuple *)x;
         NSLog(@"key == %@ , value = %@",tuple[0],tuple[1]);
     }];
+    
+    
+    //宏
+    
+    //_textField的输入变化 与 lable的text绑定
+    RAC(_lable,text) = _textField.rac_textSignal;
 }
 
 
